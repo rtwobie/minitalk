@@ -1,47 +1,60 @@
 # config
 CLIENT		:= client
 SERVER		:= server
-CC			:= cc
 SRC_DIR		:= src
 INC_DIR		:= inc
-OBJ_DIR		:= OBJ
+OBJ_DIR		:= obj
+CC			:= cc
 
 LIBFT		:= libft.a
 LIBFT_DIR	:= libft
 
 # flags
 CFLAGS		:=
+CFLAGS		+= -O2
 CFLAGS		+= -Wall
 CFLAGS		+= -Werror
 CFLAGS		+= -Wextra
 
 CPPFLAGS	:=
-CPPFLAGS	+= -g
+CPPFLAGS	+= $(addprefix -I, $(INC_DIR))
+CPPFLAGS	+= $(addprefix -I, $(LIBFT_DIR))
+
+ifeq ($(DEBUG), 1)
+	CPPFLAGS	+= -ggdb3 -O0
+endif
 
 LDFLAGS		:=
 LDFLAGS		+= -L$(LIBFT_DIR)
 
-LDLIBS		+= -l$(basename $(LIBFT))
+LDLIBS		+= -l$(patsubst lib%,%, $(basename $(LIBFT)))
 
 # sources
-SRC			:=
+vpath %.c src/cl
+SRC_CLIENT	+= client.c
 
-vpath %.c src
-SRC			:= main.c
+vpath %.c src/srv
+SRC_SERVER	+= server.c
 
-OBJ			:= $(SRC:.c=.o)
-OBJ			:= $(addprefix $(OBJ_DIR)/, $(OBJ))
+OBJ_CLIENT	:= $(SRC_CLIENT:.c=.o)
+OBJ_CLIENT	:= $(addprefix $(OBJ_DIR)/, $(OBJ_CLIENT))
 
-all: $(CLIENT) $(SERVER)
+OBJ_SERVER	:= $(SRC_SERVER:.c=.o)
+OBJ_SERVER	:= $(addprefix $(OBJ_DIR)/, $(OBJ_SERVER))
 
-$(LIBFT):
+all: client server
+
+$(LIBFT_DIR)/$(LIBFT):
 	make -C $(LIBFT_DIR)
 
-$(CLIENT):
+client: $(LIBFT_DIR)/$(LIBFT) $(OBJ_CLIENT)
+	$(CC) $(OBJ_CLIENT) $(LDFLAGS) $(LDLIBS) -o $(CLIENT)
 
-$(SERVER):
+server: $(LIBFT_DIR)/$(LIBFT) $(OBJ_SERVER)
+	$(CC) $(OBJ_SERVER) $(LDFLAGS) $(LDLIBS) -o $(SERVER)
 
 $(OBJ_DIR)/%.o: %.c | $(OBJ_DIR)
+	$(CC) $(CFLAGS) $(CPPFLAGS) -c $< -o $@
 
 $(OBJ_DIR):
 	mkdir -p $@
@@ -60,4 +73,4 @@ re:
 	@make fclean
 	@make all
 
-.PHONY: all clean fclean re
+.PHONY: all clean fclean re client server

@@ -1,0 +1,36 @@
+[
+ {
+  "directory": "/home/rha-le/repo/cc/minitalk",
+  "arguments": [
+   "cc",
+   "-O2",
+   "-Wall",
+   "-Werror",
+   "-Wextra",
+   "-Iinc",
+   "-Ilibft",
+   "-c",
+   "src/cl/client.c",
+   "-o",
+   "obj/client.o"
+  ],
+  "file": "src/cl/client.c"
+ },
+ {
+  "directory": "/home/rha-le/repo/cc/minitalk",
+  "arguments": [
+   "cc",
+   "-O2",
+   "-Wall",
+   "-Werror",
+   "-Wextra",
+   "-Iinc",
+   "-Ilibft",
+   "-c",
+   "src/srv/server.c",
+   "-o",
+   "obj/server.o"
+  ],
+  "file": "src/srv/server.c"
+ }
+]

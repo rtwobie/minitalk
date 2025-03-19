@@ -45,7 +45,7 @@ OBJ_SERVER	:= $(addprefix $(OBJ_DIR)/, $(OBJ_SERVER))
 all: client server
 
 $(LIBFT_DIR)/$(LIBFT):
-	make -C $(LIBFT_DIR)
+	@make -C $(LIBFT_DIR)
 
 client: $(LIBFT_DIR)/$(LIBFT) $(OBJ_CLIENT)
 	$(CC) $(OBJ_CLIENT) $(LDFLAGS) $(LDLIBS) -o $(CLIENT)

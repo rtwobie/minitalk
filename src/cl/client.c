@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include <signal.h>
+#include <unistd.h>
 #include "libft.h"
 
 void send_bit(pid_t pid, unsigned char octet)
@@ -24,6 +25,7 @@ void send_bit(pid_t pid, unsigned char octet)
 			kill(pid, SIGUSR2);
 		else
 			kill(pid, SIGUSR1);
+		usleep(100);
 		--i;
 	}
 }
@@ -41,5 +43,6 @@ int main(int argc, char *argv[])
 {
 	if (argc != 3)
 		return (1);
-	send_byte(ft_atoi(argv[1]), argv[2]);
+	send_bit(ft_atoi(argv[1]), argv[2][0]);
+	/*send_byte(ft_atoi(argv[1]), argv[2]);*/
 }

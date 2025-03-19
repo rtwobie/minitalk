@@ -15,28 +15,29 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-void put_zero(int sig)
+unsigned char c = 0;
+
+static void put_zero(int sig)
 {
 	(void)sig;
+	/*c = c << 1;*/
 	write(1, "0", 1);
 }
 
-void put_one(int sig)
+static void put_one(int sig)
 {
 	(void)sig;
 	write(1, "1", 1);
+	/*c = c << 1 | 1;*/
 }
 
 int main(void)
 {
 	signal(SIGUSR1, put_zero);
 	signal(SIGUSR2, put_one);
-
 	printf("PID: %i\n", getpid());
-
 	while (1)
 	{
-		printf("waiting for instruction...\n");
 		pause();
 	}
 }

@@ -30,11 +30,10 @@ LDFLAGS		+= -L$(LIBFT_DIR)
 LDLIBS		+= -l$(patsubst lib%,%, $(basename $(LIBFT)))
 
 # sources
-vpath %.c src/cl
-SRC_CLIENT	+= client.c
 
-vpath %.c src/srv
+vpath %.c src
 SRC_SERVER	+= server.c
+SRC_CLIENT	+= client.c
 
 OBJ_CLIENT	:= $(SRC_CLIENT:.c=.o)
 OBJ_CLIENT	:= $(addprefix $(OBJ_DIR)/, $(OBJ_CLIENT))
